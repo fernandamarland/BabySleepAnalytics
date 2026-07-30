@@ -1,6 +1,5 @@
-import csv
-import os
-bebes = []
+from banco import conectar
+
 
 def cadastrar_bebe():
 
@@ -13,29 +12,33 @@ def cadastrar_bebe():
     data_nascimento = input("Data de nascimento (dd/mm/aaaa): ")
     formula = input("Fórmula utilizada: ")
 
-    bebe = {
-        "nome": nome,
-        "idade": idade,
-        "peso": peso,
-        "altura": altura,
-        "data_nascimento": data_nascimento,
-        "formula": formula
-    }
+    conexao = conectar()
+    cursor = conexao.cursor()
 
-    bebes.append(bebe)
+    cursor.execute("""
+        INSERT INTO bebes
+        (nome, idade, peso, altura, data_nascimento, formula)
+        VALUES (?, ?, ?, ?, ?, ?)
+    """, (
+        nome,
+        idade,
+        peso,
+        altura,
+        data_nascimento,
+        formula
+    ))
 
-    salvar_csv(bebe)
+    conexao.commit()
+    conexao.close()
 
-    print("\nCadastro realizado com sucesso!")
+    print("\n✅ Cadastro realizado com sucesso!")
 
-    print(f"\nNome: {nome}")
+    print(f"Nome: {nome}")
     print(f"Idade: {idade} meses")
     print(f"Peso: {peso} kg")
     print(f"Altura: {altura} cm")
     print(f"Data de nascimento: {data_nascimento}")
     print(f"Fórmula: {formula}")
-
-    print(f"\n{nome} tem {idade} meses e utiliza {formula}.")
 
     print("\n===== ANÁLISE =====")
 
@@ -49,7 +52,17 @@ def cadastrar_bebe():
     else:
         print("✔ Outra fórmula registrada.")
 
+
 def visualizar_bebes():
+
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    cursor.execute("SELECT * FROM bebes")
+
+    bebes = cursor.fetchall()
+
+    conexao.close()
 
     print("\n===== BEBÊS CADASTRADOS =====")
 
@@ -57,42 +70,74 @@ def visualizar_bebes():
         print("Nenhum bebê cadastrado.")
         return
 
-    for indice, bebe in enumerate(bebes, start=1):
+    for bebe in bebes:
 
-        print(f"\nBebê {indice}")
-        print(f"Nome: {bebe['nome']}")
-        print(f"Idade: {bebe['idade']} meses")
-        print(f"Peso: {bebe['peso']} kg")
-        print(f"Altura: {bebe['altura']} cm")
-        print(f"Data de nascimento: {bebe['data_nascimento']}")
-        print(f"Fórmula: {bebe['formula']}")
+        print("\n------------------------------")
+        print(f"ID: {bebe[0]}")
+        print(f"Nome: {bebe[1]}")
+        print(f"Idade: {bebe[2]} meses")
+        print(f"Peso: {bebe[3]} kg")
+        print(f"Altura: {bebe[4]} cm")
+        print(f"Data de nascimento: {bebe[5]}")
+        print(f"Fórmula: {bebe[6]}")
 
 
-def salvar_csv(bebe):
+def editar_bebe():
 
-    arquivo = "dados/cadastro.csv"
+    visualizar_bebes()
 
-    arquivo_existe = os.path.isfile(arquivo)
+    id_bebe = input("\nDigite o ID do bebê: ")
 
-    with open(
-        arquivo,
-        mode="a",
-        newline="",
-        encoding="utf-8"
-    ) as csvfile:
+    nome = input("Novo nome: ")
+    idade = int(input("Nova idade: "))
+    peso = float(input("Novo peso: "))
+    altura = float(input("Nova altura: "))
+    data_nascimento = input("Nova data de nascimento: ")
+    formula = input("Nova fórmula: ")
 
-        campos = [
-            "nome",
-            "idade",
-            "peso",
-            "altura",
-            "data_nascimento",
-            "formula"
-        ]
+    conexao = conectar()
+    cursor = conexao.cursor()
 
-        writer = csv.DictWriter(csvfile, fieldnames=campos)
+    cursor.execute("""
+        UPDATE bebes
+        SET nome = ?,
+            idade = ?,
+            peso = ?,
+            altura = ?,
+            data_nascimento = ?,
+            formula = ?
+        WHERE id = ?
+    """, (
+        nome,
+        idade,
+        peso,
+        altura,
+        data_nascimento,
+        formula,
+        id_bebe
+    ))
 
-        if not arquivo_existe:
-            writer.writeheader()
+    conexao.commit()
+    conexao.close()
 
-        writer.writerow(bebe)
+    print("\n✅ Cadastro atualizado com sucesso!")
+
+
+def excluir_bebe():
+
+    visualizar_bebes()
+
+    id_bebe = input("\nDigite o ID do bebê que deseja excluir: ")
+
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    cursor.execute(
+        "DELETE FROM bebes WHERE id = ?",
+        (id_bebe,)
+    )
+
+    conexao.commit()
+    conexao.close()
+
+    print("\n✅ Cadastro excluído com sucesso!")
