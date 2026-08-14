@@ -1,8 +1,8 @@
-# 👶 Baby Sleep Analytics
+# Baby Sleep Analytics
 
 Sistema desenvolvido em Python para auxiliar pais e responsáveis no acompanhamento da rotina do bebê, permitindo registrar informações importantes como sono, mamadas, alimentação, vacinas e dados cadastrais.
 
-## 📌 Objetivo
+## Objetivo
 
 O projeto foi desenvolvido com o objetivo de colocar em prática conhecimentos em Python, SQLite, SQL, Git e GitHub, simulando um sistema real de gerenciamento de informações.
 
@@ -10,7 +10,7 @@ A ideia surgiu ao perceber como é difícil acompanhar diariamente informações
 
 ---
 
-## 🚀 Tecnologias utilizadas
+## Tecnologias utilizadas
 
 - Python 3
 - SQLite
@@ -21,7 +21,7 @@ A ideia surgiu ao perceber como é difícil acompanhar diariamente informações
 
 ---
 
-## 📂 Estrutura do projeto
+##  Estrutura do projeto
 
 ```
 BabySleepAnalytics
@@ -43,7 +43,7 @@ BabySleepAnalytics
 
 ---
 
-## ⚙️ Funcionalidades
+##  Funcionalidades
 
 - Cadastro de bebês
 - Visualização dos bebês cadastrados
@@ -60,7 +60,7 @@ Todos os dados são armazenados em um banco de dados SQLite.
 
 ---
 
-## 🗄️ Banco de Dados
+##  Banco de Dados
 
 O sistema utiliza SQLite para armazenar todas as informações do bebê.
 
@@ -74,7 +74,7 @@ As tabelas utilizadas são:
 
 ---
 
-## ▶️ Como executar
+##  Como executar
 
 1. Clone o repositório
 
@@ -96,7 +96,7 @@ python src/main.py
 
 ---
 
-## 📈 Próximas melhorias
+## Próximas melhorias
 
 - Dashboard com gráficos
 - Análises estatísticas dos registros
@@ -105,8 +105,8 @@ python src/main.py
 
 ---
 
-## 👩‍💻 Desenvolvido por
+## Desenvolvido por
 
-Fernanda Ferraz Marland
+Fernanda Ferraz Marland Santos
 
 Projeto desenvolvido para fins de estudo e construção de portfólio na área de Dados.
